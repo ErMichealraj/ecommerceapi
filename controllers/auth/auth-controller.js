@@ -2,16 +2,16 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/User");
 
-//register
+// Register
 const registerUser = async (req, res) => {
-  const { userName, email, password } = req.body;
+  const { userName, email, password, idProofType, idProofNo } = req.body;
 
   try {
     const checkUser = await User.findOne({ email });
     if (checkUser)
       return res.json({
         success: false,
-        message: "User Already exists with the same email! Please try again",
+        message: "User already exists with the same email! Please try again.",
       });
 
     const hashPassword = await bcrypt.hash(password, 12);
@@ -19,6 +19,8 @@ const registerUser = async (req, res) => {
       userName,
       email,
       password: hashPassword,
+      idProofType,  // Include idProofType
+      idProofNo,    // Include idProofNo
     });
 
     await newUser.save();
@@ -30,7 +32,7 @@ const registerUser = async (req, res) => {
     console.log(e);
     res.status(500).json({
       success: false,
-      message: "Some error occured",
+      message: "Some error occurred",
     });
   }
 };

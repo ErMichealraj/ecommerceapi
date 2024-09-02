@@ -19,6 +19,14 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: "user",
   },
+  idProofType: {
+    type: String,
+    required: true,  // Make it required or optional as per your requirement
+  },
+  idProofNo: {
+    type: String,
+    required: true,  // Make it required or optional as per your requirement
+  },
 });
 
 const User = mongoose.model("User", UserSchema);
